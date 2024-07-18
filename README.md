@@ -20,7 +20,7 @@ Run `npm i` in the terminal to install necessary packages to use the test the ba
 
 ## Usage
 
-Run `node server.js` in the terminal to start the back-end.  
+Run `node server.js` in the terminal to start the back-end and use Insomnia for testing.  
 Here is a [video](https://drive.google.com/file/d/1E_DP3_GSN9J_Ql8rlPV-jLfLdI9ouf-Y/view?usp=sharing) showing a walkthrough of the tests.
 
 ## Credits
