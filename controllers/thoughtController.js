@@ -27,13 +27,13 @@ module.exports = {
   // Create a new thought - find if the user exists first then create a new thought, add the thought id to the user thought array and return the updated document
   async createThought(req, res) {
     try {
-      let user = await User.findOne({ _id: req.body.userId });
+      let user = await User.findOne({ username: req.body.username });
       if (!user) {
         return res.status(404).json({ message: "No user with that ID" });
       }
       const thought = await Thought.create(req.body);
       user = await User.findOneAndUpdate(
-        { _id: req.body.userId },
+        { username: req.body.username },
         { $addToSet: { thoughts: thought._id } },
         { new: true }
       );
@@ -63,7 +63,7 @@ module.exports = {
   // Delete a thought and remove thought id from the user
   async deleteThought(req, res) {
     try {
-      const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
+      const thought = await Thought.findByIdAndDelete({ _id: req.params.thoughtId });
       if (!thought) {
         return res.status(404).json({ message: "No thought with that ID" });
       }
@@ -81,6 +81,10 @@ module.exports = {
   // Add a reaction to the thought
   async addReaction(req, res) {
     try {
+      let user = await User.findOne({ username: req.body.username });
+      if (!user) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $addToSet: { reactions: req.body } },
